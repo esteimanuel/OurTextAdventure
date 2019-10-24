@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="Infrastructure.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="Data.fs" />
+    <Compile Include="GameLogic.fs" />
+    <Compile Include="Features\Players\Wander.fs" />
   </ItemGroup>
 
 </Project>
