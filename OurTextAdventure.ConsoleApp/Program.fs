@@ -1,7 +1,5 @@
 ﻿open System
 open OurTextAdventure.Models
-open OurTextAdventure.GameLogic
-open OurTextAdventure.Infrastructure.CommandParsing
 
 [<EntryPoint>]
 let main argv =
@@ -109,41 +107,29 @@ let main argv =
     ] 
 
     let player = { 
-        Details = { Name = "Action Hank"; Description = "A man wielding the most rugged beard known to man."}
+        Id = PlayerId ""
+        Details = { Name = "Action Hank"; Description = "a man wielding the most rugged beard known to man."}
         Inventory = []
         Location = RoomId "center" }
 
     let gameWorld = { Rooms = allRooms |> Seq.map(fun room -> (room.Id, room)) |> Map.ofSeq; Player = player }
+            
+    let describePlayer =
+        let name = gameWorld.Player.Details.Name
+        let description = gameWorld.Player.Details.Description
+        printfn "%s %s" name description
 
-    let gameEngine = GameEngine(gameWorld)
-        
-    // wander aimlessly every 5 seconds
-    let random = System.Random()
-    let intervalInMilliSeconds = 5000
-    let handler = OurTextAdventure.Features.Players.Wander.Handler(gameEngine)
-    handler.Handle random intervalInMilliSeconds |> ignore
-    
     let inputToAction line =        
         match line with
-        | "quit" -> gameEngine.Stop(); Environment.Exit(0)
-        | "reset" -> gameEngine.Reset gameWorld
-        | "move north" -> gameEngine.ApplyUpdate(move north)
-        | "move east" -> gameEngine.ApplyUpdate(move east)
-        | "move south" -> gameEngine.ApplyUpdate(move south)
-        | "move west" -> gameEngine.ApplyUpdate(move west)
-        | "who am i" -> printfn "%s" (describeDetails gameWorld.Player.Details)
-        | _ -> 
-            line 
-            |> stringToCharList
-            |> runParser (["quit"; "reset"; "move north"; "move east"; "move south"; "move west"; "who am i"] |> anyStringOf)
-            |> printfn "%A"
-            
-    describeCurrentRoom gameWorld 
-    |> fun x -> 
-        match x with 
-        | Ok msg -> printfn "%s" msg
-        | Error error -> printfn "%s" error
-         
+        | "quit" -> Environment.Exit(0)
+        | "reset" -> printfn "reset the game world"
+        | "move north" -> printfn "moving north"
+        | "move east" -> printfn "moving east"
+        | "move south" -> printfn "moving south"
+        | "move west" -> printfn "moving west"
+        | "who am i" -> describePlayer
+        | _ -> ()
+                     
     fun _ -> Console.ReadLine()
     |> Seq.initInfinite
     |> Seq.iter inputToAction
