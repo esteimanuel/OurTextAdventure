@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -8,8 +8,8 @@
     <Compile Include="Infrastructure.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="Data.fs" />
-    <Compile Include="GameLogic.fs" />
-    <Compile Include="Features\Players\Wander.fs" />
+    <Compile Include="Features/Players/Move.fs" />
+    <Compile Include="Features/Players/Details.fs" />
   </ItemGroup>
 
 </Project>
